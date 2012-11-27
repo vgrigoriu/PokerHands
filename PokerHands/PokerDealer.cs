@@ -25,7 +25,6 @@ namespace PokerHands
 
         public PokerDealer(IDiscriminator discriminator)
         {
-
             this.discriminator = discriminator;
         }
 
@@ -49,16 +48,16 @@ namespace PokerHands
         }
 
 
-        public HandType GetHandType(IList<Card> firstHand)
+        public HandType GetHandType(IList<Card> hand)
         {
-            var distinctValues = firstHand.Select(card => card.Value).Distinct().Count();
+            var distinctValues = hand.Select(card => card.Value).Distinct().Count();
 
             if (distinctValues == 4)
                 return HandType.OnePair;
 
             if (distinctValues == 3)
             {
-                if (firstHand.Any(card => firstHand.Count(c => c.Value == card.Value) == 3))
+                if (hand.Any(card => hand.Count(c => c.Value == card.Value) == 3))
                     return HandType.ThreeOfAKind;
                 return HandType.TwoPair;
             }
