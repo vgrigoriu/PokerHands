@@ -8,8 +8,8 @@ namespace PokerHands
 
         public Card(Suit suit, int value)
         {
-            this.Suit = suit;
-            this.Value = value;
+            Suit = suit;
+            Value = value;
         }
     }
 }

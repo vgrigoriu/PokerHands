@@ -1,5 +1,4 @@
-﻿
-namespace PokerHands
+﻿namespace PokerHands
 {
     public enum HandType
     {

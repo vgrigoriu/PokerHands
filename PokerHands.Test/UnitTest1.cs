@@ -43,7 +43,7 @@ namespace PokerHands.Test
                 new Card(Suit.Diamonds, 3), new Card(Suit.Clubs, 2), 
                 new Card(Suit.Hearts, 11), new Card(Suit.Spades, 12) };
 
-            var dealer = new PokerDealer();
+            var dealer = new PokerDealer(new Discriminator());
             var value = dealer.Compare(firstHand, secondHand);
 
             Assert.AreEqual(0, value);

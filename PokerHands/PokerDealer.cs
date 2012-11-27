@@ -7,15 +7,15 @@ namespace PokerHands
 {
     public class PokerDealer
     {
-        private readonly IDiscriminator _discriminator;
+        private readonly IDiscriminator discriminator;
 
         private IDiscriminator Discriminator
         {
             get
             {
-                if (_discriminator == null)
+                if (discriminator == null)
                     throw new InvalidOperationException("");
-                return _discriminator;
+                return discriminator;
             }
         }
 
@@ -26,7 +26,7 @@ namespace PokerHands
         public PokerDealer(IDiscriminator discriminator)
         {
 
-            this._discriminator = discriminator;
+            this.discriminator = discriminator;
         }
 
         public int Compare(IList<Card> firstHand, IList<Card> secondHand)
@@ -40,7 +40,7 @@ namespace PokerHands
 
             if ((int)firstHandType > (int)secondHandType)
                 return -1;
-            else if ((int)firstHandType < (int)secondHandType)
+            if ((int)firstHandType < (int)secondHandType)
                 return 1;
 
             return Discriminator.CompareEqual(firstHand, secondHand);
@@ -50,12 +50,12 @@ namespace PokerHands
 
         public HandType GetHandType(IList<Card> firstHand)
         {
-            var distinctHand = firstHand.Select(card => card.Value).Distinct();
+            var distinctValues = firstHand.Select(card => card.Value).Distinct().Count();
 
-            if (distinctHand.Count() == 4)
+            if (distinctValues == 4)
                 return HandType.OnePair;
 
-            if (distinctHand.Count() == 3)
+            if (distinctValues == 3)
             {
                 if (firstHand.Any(card => firstHand.Count(c => c.Value == card.Value) == 3))
                     return HandType.ThreeOfAKind;
