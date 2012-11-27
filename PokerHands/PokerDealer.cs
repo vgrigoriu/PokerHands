@@ -31,7 +31,8 @@ namespace PokerHands
 
         public int Compare(IList<Card> firstHand, IList<Card> secondHand)
         {
-            // TODO if(firstHand == null)
+            if (firstHand == null) throw new ArgumentNullException("firstHand");
+            if (secondHand == null) throw new ArgumentNullException("secondHand");
 
             if (firstHand.Count != 5 || secondHand.Count != 5)
                 throw new NotAPokerHandException();
