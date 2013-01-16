@@ -47,20 +47,67 @@ namespace PokerHands
 
         }
 
-
         public HandType GetHandType(IList<Card> hand)
         {
-            var distinctValues = hand.Select(card => card.Value).Distinct().Count();
+            var distinctValueCount = hand.Select(card => card.Value).Distinct().Count();
 
-            if (distinctValues == 4)
-                return HandType.OnePair;
+            var sortedHand = hand.OrderBy(card => card.Value);
+            var distinctSuits = sortedHand.Select(card => card.Suit).Distinct().Count();
 
-            if (distinctValues == 3)
+            switch (distinctValueCount)
             {
-                if (hand.Any(card => hand.Count(c => c.Value == card.Value) == 3))
-                    return HandType.ThreeOfAKind;
-                return HandType.TwoPair;
+                case 2:
+                    return GetHandTypeForTwoDistinctCardValues(sortedHand);
+                case 3:
+                    return GetHandTypeForThreeDistinctCardValues(hand);
+                case 4:
+                    return HandType.OnePair;
+                case 5:
+                    return GetHandTypeForFiveDistinctCardValues(sortedHand, distinctSuits);
+                default:
+                    throw new NotAPokerHandException();
             }
+        }
+
+        private static HandType GetHandTypeForThreeDistinctCardValues(IList<Card> hand)
+        {
+            if (hand.Any(card => hand.Count(c => c.Value == card.Value) == 3))
+                return HandType.ThreeOfAKind;
+            return HandType.TwoPair;
+        }
+
+        private static HandType GetHandTypeForTwoDistinctCardValues(IOrderedEnumerable<Card> sortedHand)
+        {
+            int firstCardValue = sortedHand.First().Value;
+            int firstCardOccurences = sortedHand.Count(c => c.Value == firstCardValue);
+            if (firstCardOccurences == 4 || firstCardOccurences == 1)
+            {
+                return HandType.FourofAKind;
+            }
+            return HandType.FullHouse;
+        }
+
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sortedHand">a sorted list of five cards</param>
+        /// <param name="distinctSuits">the number of distinct suits</param>
+        /// <returns></returns>
+        public HandType GetHandTypeForFiveDistinctCardValues(IOrderedEnumerable<Card> sortedHand, int distinctSuits)
+        {
+            if (distinctSuits == 1)
+                if (sortedHand.Last().Value - sortedHand.First().Value == 4)
+                {
+                    if (sortedHand.Last().Value == 14)
+                        return HandType.RoyalFlush;
+                    else
+                        return HandType.StraightFlush;
+                }
+                else
+                    return HandType.Flush;
+
+            if (sortedHand.Last().Value - sortedHand.First().Value == 4)
+                return HandType.Straight;
 
 
             return HandType.HighCard;
