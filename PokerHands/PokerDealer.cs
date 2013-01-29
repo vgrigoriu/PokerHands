@@ -7,25 +7,26 @@ namespace PokerHands
 {
     public class PokerDealer
     {
-        private readonly IDiscriminator discriminator;
+        private readonly IDiscriminatorFactory discriminatorFactory;
 
-        private IDiscriminator Discriminator
+        private IDiscriminatorFactory DiscriminatorFactory
         {
             get
             {
-                if (discriminator == null)
+                if (discriminatorFactory == null)
                     throw new InvalidOperationException("");
-                return discriminator;
+                return discriminatorFactory;
             }
         }
 
-        public PokerDealer()
+        public PokerDealer() : this(new DiscriminatorFactory())
         {
+
         }
 
-        public PokerDealer(IDiscriminator discriminator)
+        public PokerDealer(IDiscriminatorFactory discriminatorFactory)
         {
-            this.discriminator = discriminator;
+            this.discriminatorFactory = discriminatorFactory;
         }
 
         public int Compare(IList<Card> firstHand, IList<Card> secondHand)
@@ -43,8 +44,8 @@ namespace PokerHands
             if ((int)firstHandType < (int)secondHandType)
                 return 1;
 
-            return Discriminator.CompareEqual(firstHand, secondHand);
-
+            IDiscriminator discriminator = DiscriminatorFactory.CreateDiscriminator(firstHandType);
+            return discriminator.CompareEqual(firstHand, secondHand);
         }
 
         public HandType GetHandType(IList<Card> hand)
