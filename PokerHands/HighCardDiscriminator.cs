@@ -14,7 +14,7 @@ namespace PokerHands
             {
                 if (orderedFirstHand[i].Value > orderedSecondHand[i].Value)
                     return -1;
-                else if (orderedFirstHand[i].Value < orderedSecondHand[i].Value)
+                if (orderedFirstHand[i].Value < orderedSecondHand[i].Value)
                     return 1;
             }
 
