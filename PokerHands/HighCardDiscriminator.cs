@@ -5,7 +5,7 @@ namespace PokerHands
 {
     public class HighCardDiscriminator : IDiscriminator
     {
-        public int CompareEqual(IList<Card> firstHand, IList<Card> secondHand)
+        public Winner CompareEqual(IList<Card> firstHand, IList<Card> secondHand)
         {
             var orderedFirstHand = firstHand.OrderByDescending(c => c.Value).ToList();
             var orderedSecondHand = secondHand.OrderByDescending(c => c.Value).ToList();
@@ -13,12 +13,12 @@ namespace PokerHands
             for (int i = 0; i < orderedFirstHand.Count; i++)
             {
                 if (orderedFirstHand[i].Value > orderedSecondHand[i].Value)
-                    return -1;
+                    return Winner.First;
                 if (orderedFirstHand[i].Value < orderedSecondHand[i].Value)
-                    return 1;
+                    return Winner.Second;
             }
 
-            return 0;
+            return Winner.None;
         }
     }
 }

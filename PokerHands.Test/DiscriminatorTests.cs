@@ -26,7 +26,7 @@ namespace PokerHands.Test
             discriminatorFactoryMock.Setup(df => df.CreateDiscriminator(It.IsAny<HandType>())).
                 Returns(discriminatorStub.Object);
             var dealer = new PokerDealer(discriminatorFactoryMock.Object);
-            var value = dealer.Compare(firstHand, secondHand);
+            dealer.Compare(firstHand, secondHand);
 
             discriminatorFactoryMock.Verify(df => df.CreateDiscriminator(HandType.OnePair));
         }
@@ -77,28 +77,36 @@ namespace PokerHands.Test
 
             var result = discriminator.CompareEqual(firstHand, secondHand);
 
-            Assert.AreEqual(-1, result);
+            Assert.AreEqual(Winner.First, result);
         }
 
         [TestMethod]
         public void CompareEqualDiscriminatesOnePairHands()
         {
             var firstHand = new List<Card>
-                { new Card(Suit.Clubs, 1), 
-                    new Card(Suit.Diamonds, 1), new Card(Suit.Clubs, 3), 
-                    new Card(Suit.Hearts, 2), new Card(Suit.Spades, 12) };
+            {
+                new Card(Suit.Hearts, 2),
+                new Card(Suit.Clubs, 2), 
+                new Card(Suit.Diamonds, 1),
+                new Card(Suit.Clubs, 3), 
+                new Card(Suit.Spades, 12),
+            };
 
             var secondHand = new List<Card>
-                { new Card(Suit.Clubs, 1), 
-                    new Card(Suit.Diamonds, 2), new Card(Suit.Clubs, 9), 
-                    new Card(Suit.Hearts, 2), new Card(Suit.Spades, 7) };
+            {
+                new Card(Suit.Diamonds, 3),
+                new Card(Suit.Hearts, 3),
+                new Card(Suit.Clubs, 1), 
+                new Card(Suit.Spades, 7),
+                new Card(Suit.Clubs, 9), 
+            };
 
             var discriminatorFactory = new DiscriminatorFactory();
             var discriminator = discriminatorFactory.CreateDiscriminator(HandType.OnePair);
 
             var result = discriminator.CompareEqual(firstHand, secondHand);
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(Winner.Second, result);
         }
 
         [TestMethod]
@@ -127,7 +135,7 @@ namespace PokerHands.Test
 
             var result = discriminator.CompareEqual(firstHand, secondHand);
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(Winner.Second, result);
         }
     }
 }

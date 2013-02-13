@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using PokerHands.Exceptions;
 
 namespace PokerHands.Test
@@ -67,21 +66,30 @@ namespace PokerHands.Test
         [TestMethod]
         public void CompareHandWithHigherHandTypeWins()
         {
-            var firstHand = new List<Card>
-                { new Card(Suit.Clubs, 1), 
-                    new Card(Suit.Diamonds, 1), new Card(Suit.Clubs, 1), 
-                    new Card(Suit.Hearts, 2), new Card(Suit.Spades, 12) };
+            var threeOfAKindHand = new List<Card>
+            {
+                new Card(Suit.Clubs, 1), 
+                new Card(Suit.Diamonds, 1),
+                new Card(Suit.Clubs, 1), 
+                new Card(Suit.Hearts, 2),
+                new Card(Suit.Spades, 12)
+            };
 
-            var secondHand = new List<Card>
-                { new Card(Suit.Clubs, 2), 
-                    new Card(Suit.Diamonds, 3), new Card(Suit.Clubs, 2), 
-                    new Card(Suit.Hearts, 11), new Card(Suit.Spades, 12) };
+            var onePairHand = new List<Card>
+            {
+                new Card(Suit.Clubs, 2), 
+                new Card(Suit.Clubs, 2), 
+                new Card(Suit.Diamonds, 3),
+                new Card(Suit.Hearts, 11),
+                new Card(Suit.Spades, 12)
+            };
 
-            var value = new PokerDealer().Compare(firstHand, secondHand);
-            Assert.IsTrue(value < 0);
+            var value = new PokerDealer().Compare(threeOfAKindHand, onePairHand);
+
+            Assert.AreEqual(Winner.First, value);
         }
 
 
-       
+
     }
 }

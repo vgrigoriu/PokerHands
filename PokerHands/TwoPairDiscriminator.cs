@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PokerHands
 {
-    class TwoPairDiscriminator: IDiscriminator
+    class TwoPairDiscriminator : IDiscriminator
     {
-        public int CompareEqual(IList<Card> firstHand, IList<Card> secondHand)
+        public Winner CompareEqual(IList<Card> firstHand, IList<Card> secondHand)
         {
-            return 1;
+            return Winner.Second;
         }
     }
 }
