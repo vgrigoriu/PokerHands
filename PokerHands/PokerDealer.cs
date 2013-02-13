@@ -30,7 +30,7 @@ namespace PokerHands
             this.discriminatorFactory = discriminatorFactory;
         }
 
-        public Winner Compare(IList<Card> firstHand, IList<Card> secondHand)
+        public Winner GetWinner(IList<Card> firstHand, IList<Card> secondHand)
         {
             if (firstHand == null) throw new ArgumentNullException("firstHand");
             if (secondHand == null) throw new ArgumentNullException("secondHand");
@@ -46,7 +46,7 @@ namespace PokerHands
                 return Winner.Second;
 
             IDiscriminator discriminator = DiscriminatorFactory.CreateDiscriminator(firstHandType);
-            return discriminator.CompareEqual(firstHand, secondHand);
+            return discriminator.GetWinnerForHandsWithSameType(firstHand, secondHand);
         }
 
         public HandType GetHandType(IList<Card> hand)

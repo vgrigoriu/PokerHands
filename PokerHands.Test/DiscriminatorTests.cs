@@ -26,7 +26,7 @@ namespace PokerHands.Test
             discriminatorFactoryMock.Setup(df => df.CreateDiscriminator(It.IsAny<HandType>())).
                 Returns(discriminatorStub.Object);
             var dealer = new PokerDealer(discriminatorFactoryMock.Object);
-            dealer.Compare(firstHand, secondHand);
+            dealer.GetWinner(firstHand, secondHand);
 
             discriminatorFactoryMock.Verify(df => df.CreateDiscriminator(HandType.OnePair));
         }
@@ -51,10 +51,10 @@ namespace PokerHands.Test
                 .Returns(mockDiscriminator.Object);
 
             new PokerDealer(stubDiscriminatorFactory.Object)
-                .Compare(firstHand, secondHand);
+                .GetWinner(firstHand, secondHand);
 
             mockDiscriminator.Verify(
-                d => d.CompareEqual(
+                d => d.GetWinnerForHandsWithSameType(
                     It.IsAny<IList<Card>>(),
                     It.IsAny<IList<Card>>()));
         }
@@ -75,7 +75,7 @@ namespace PokerHands.Test
             var discriminatorFactory = new DiscriminatorFactory();
             var discriminator = discriminatorFactory.CreateDiscriminator(HandType.HighCard);
 
-            var result = discriminator.CompareEqual(firstHand, secondHand);
+            var result = discriminator.GetWinnerForHandsWithSameType(firstHand, secondHand);
 
             Assert.AreEqual(Winner.First, result);
         }
@@ -104,7 +104,7 @@ namespace PokerHands.Test
             var discriminatorFactory = new DiscriminatorFactory();
             var discriminator = discriminatorFactory.CreateDiscriminator(HandType.OnePair);
 
-            var result = discriminator.CompareEqual(firstHand, secondHand);
+            var result = discriminator.GetWinnerForHandsWithSameType(firstHand, secondHand);
 
             Assert.AreEqual(Winner.Second, result);
         }
@@ -133,7 +133,7 @@ namespace PokerHands.Test
             var discriminatorFactory = new DiscriminatorFactory();
             var discriminator = discriminatorFactory.CreateDiscriminator(HandType.HighCard);
 
-            var result = discriminator.CompareEqual(firstHand, secondHand);
+            var result = discriminator.GetWinnerForHandsWithSameType(firstHand, secondHand);
 
             Assert.AreEqual(Winner.Second, result);
         }

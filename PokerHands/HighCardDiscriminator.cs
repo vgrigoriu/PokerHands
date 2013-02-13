@@ -5,7 +5,7 @@ namespace PokerHands
 {
     public class HighCardDiscriminator : IDiscriminator
     {
-        public Winner CompareEqual(IList<Card> firstHand, IList<Card> secondHand)
+        public Winner GetWinnerForHandsWithSameType(IList<Card> firstHand, IList<Card> secondHand)
         {
             var orderedFirstHand = firstHand.OrderByDescending(c => c.Value).ToList();
             var orderedSecondHand = secondHand.OrderByDescending(c => c.Value).ToList();

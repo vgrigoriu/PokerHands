@@ -1,7 +1,9 @@
-﻿namespace PokerHands
+﻿using System.Collections.Generic;
+
+namespace PokerHands
 {
     public interface IDiscriminator
     {
-        Winner CompareEqual(System.Collections.Generic.IList<Card> firstHand, System.Collections.Generic.IList<Card> secondHand);
+        Winner GetWinnerForHandsWithSameType(IList<Card> firstHand, IList<Card> secondHand);
     }
 }

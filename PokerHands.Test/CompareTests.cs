@@ -30,7 +30,7 @@ namespace PokerHands.Test
                 };
 
             var dealer = new PokerDealer();
-            dealer.Compare(list1, list2);
+            dealer.GetWinner(list1, list2);
             Assert.Fail("Shouldn't even reach this line");
         }
 
@@ -39,7 +39,7 @@ namespace PokerHands.Test
         public void CompareThrowsForNullArguments()
         {
             var dealer = new PokerDealer();
-            dealer.Compare(null, null);
+            dealer.GetWinner(null, null);
             Assert.Fail("Shouldn't even reach this line");
         }
 
@@ -58,7 +58,7 @@ namespace PokerHands.Test
                     new Card(Suit.Hearts, 11), new Card(Suit.Spades, 12) };
 
             var dealer = new PokerDealer();
-            var value = dealer.Compare(firstHand, secondHand);
+            var value = dealer.GetWinner(firstHand, secondHand);
 
             Assert.AreEqual(0, value);
         }
@@ -84,7 +84,7 @@ namespace PokerHands.Test
                 new Card(Suit.Spades, 12)
             };
 
-            var value = new PokerDealer().Compare(threeOfAKindHand, onePairHand);
+            var value = new PokerDealer().GetWinner(threeOfAKindHand, onePairHand);
 
             Assert.AreEqual(Winner.First, value);
         }
