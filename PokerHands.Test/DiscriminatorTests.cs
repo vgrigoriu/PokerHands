@@ -137,5 +137,34 @@ namespace PokerHands.Test
 
             Assert.AreEqual(Winner.Second, result);
         }
+
+        [TestMethod]
+        public void StraightsAreDiscriminatedCorrectly()
+        {
+            var straightTo8Hand = new List<Card>
+            { 
+                new Card(Suit.Clubs, 4), 
+                new Card(Suit.Diamonds, 5),
+                new Card(Suit.Clubs, 6), 
+                new Card(Suit.Hearts, 7),
+                new Card(Suit.Spades, 8),
+            };
+
+            var straightTo7Hand = new List<Card>
+            {
+                new Card(Suit.Clubs, 3), 
+                new Card(Suit.Diamonds, 4),
+                new Card(Suit.Clubs, 5), 
+                new Card(Suit.Hearts, 6),
+                new Card(Suit.Spades, 7)
+            };
+
+            var discriminatorFactory = new DiscriminatorFactory();
+            var discriminator = discriminatorFactory.CreateDiscriminator(HandType.Straight);
+
+            var result = discriminator.GetWinnerForHandsWithSameType(straightTo8Hand, straightTo7Hand);
+
+            Assert.AreEqual(Winner.First, result);
+        }
     }
 }
