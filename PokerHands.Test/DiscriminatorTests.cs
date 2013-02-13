@@ -166,5 +166,34 @@ namespace PokerHands.Test
 
             Assert.AreEqual(Winner.First, result);
         }
+
+        [TestMethod]
+        public void FullHousesAreDiscriminatedCorrectly()
+        {
+            var sevensAndTensFull = new List<Card>
+            { 
+                new Card(Suit.Clubs, 7), 
+                new Card(Suit.Diamonds, 7),
+                new Card(Suit.Clubs, 7), 
+                new Card(Suit.Hearts, 10),
+                new Card(Suit.Spades, 10),
+            };
+
+            var eightsAndNinesFull = new List<Card>
+            {
+                new Card(Suit.Clubs, 8), 
+                new Card(Suit.Diamonds, 8),
+                new Card(Suit.Clubs, 8), 
+                new Card(Suit.Hearts, 9),
+                new Card(Suit.Spades, 9)
+            };
+
+            var discriminatorFactory = new DiscriminatorFactory();
+            var discriminator = discriminatorFactory.CreateDiscriminator(HandType.FullHouse);
+
+            var result = discriminator.GetWinnerForHandsWithSameType(sevensAndTensFull, eightsAndNinesFull);
+
+            Assert.AreEqual(Winner.Second, result);
+        }
     }
 }
